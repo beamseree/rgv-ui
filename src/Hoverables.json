@@ -1,0 +1,74 @@
+{
+    "sensors": [
+        {
+            "name": "Sensor 1",
+            "id": "869",
+            "description": "This is the first sensor"
+        },
+        {
+            "name": "Sensor 2",
+            "id": "857",
+            "description": "This is the second sensor"
+        },
+        {
+            "name": "Sensor 3",
+            "id": "821",
+            "description": "This is the third sensor"
+        },
+        {
+            "name": "Sensor 4",
+            "id": "867",
+            "description": "This is the fourth sensor"
+        },
+        {
+            "name": "Sensor 5",
+            "id": "820",
+            "description": "This is the fifth sensor"
+        },
+        {
+            "name": "Sensor 6",
+            "id": "866",
+            "description": "This is the sixth sensor"
+        },
+        {
+            "name": "Sensor 7",
+            "id": "864",
+            "description": "This is the seventh sensor"
+        },
+        {
+            "name": "Sensor 8",
+            "id": "863",
+            "description": "This is the eighth sensor"
+        },
+        {
+            "name": "Sensor 9",
+            "id": "865",
+            "description": "This is the ninth sensor"
+        },
+        {
+            "name": "Sensor 10",
+            "id": "819",
+            "description": "This is the tenth sensor"
+        },
+        {
+            "name": "Sensor 11",
+            "id": "858",
+            "description": "This is the eleventh sensor"
+        },
+        {
+            "name": "Sensor 12",
+            "id": "822",
+            "description": "This is the twelfth sensor"
+        },
+        {
+            "name": "Sensor 13",
+            "id": "870",
+            "description": "This is the thirteenth sensor"
+        },
+        {
+            "name": "Sensor 14",
+            "id": "868",
+            "description": "This is the fourteenth sensor"
+        }
+    ]
+}
