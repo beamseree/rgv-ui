@@ -3,51 +3,16 @@ import { useGLTF } from "@react-three/drei";
 import { Select } from "@react-three/postprocessing";
 import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
-import hoverables from "./Hoverables.json";
 
 // import { useControls, folder } from "leva"
 
-export function Rgv({ setFocus, ...props }) {
+export function Rgv({ setFocus, hoverables, ...props }) {
     const group = useRef();
     const { nodes } = useGLTF("/rgvtest.glb");
     const [hovered, hover] = useState();
     const sensorIds = hoverables.sensors.map(sensor => sensor.id);
 
-    // const config = useControls({
-    //     all: { value: false },
-    //     parts: folder(
-    //         {
-    //             gear: { value: false },
-    //             shaft: { value: false },
-    //             cylinder: { value: false },
-    //             piston1: { value: false },
-    //             piston2: { value: false },
-    //             piston3: { value: false },
-    //         },
-    //         { collapsed: true },
-    //     ),
-    // })
     const [isDragging, setIsDragging] = useState(false);
-
-    const { camera, scene } = useThree();
-
-    // function raycastCheckMouseHover(event) {
-    //     const raycaster = new THREE.Raycaster();
-    //     const mouse = new THREE.Vector2();
-    //     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    //     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    //     raycaster.setFromCamera(mouse, camera);
-    //     const intersects = raycaster.intersectObjects(scene.children, true);
-    //     // for (let i = intersects.length - 1; i >= 0; i--) {
-    //     //     const intersect = intersects[i];
-    //     //     if (intersect.object.parent.name === "Object649") {
-    //     //         intersects.splice(i, 1);
-    //     //     }
-    //     // }
-    //     if (intersects.length > 0) {
-    //         hover(intersects[0].object.parent.name);
-    //     }
-    // }
 
     const handlePointerDown = (e) => {
         setIsDragging(false); // Reset dragging state on mouse down
@@ -62,8 +27,8 @@ export function Rgv({ setFocus, ...props }) {
 
     const handlePointerUp = (e) => {
         if (!isDragging) {
-            setFocus(e.object.position);
-            console.log(hovered); // Handle click event
+            setFocus(hovered);
+            console.log(hovered)// Handle click event
         }
         setIsDragging(false); // Reset dragging state
     };
