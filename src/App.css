@@ -61,8 +61,9 @@
 }
 
 .item-name {
-    font-size: 20px;
+    font-size: 21px;
     font-weight: 600;
+    color: #1657DD;
 }
 
 .item-description {
@@ -70,4 +71,14 @@
     font-size: 16px;
     font-weight: 400;
     color: #6c6c6c;
+}
+
+.canvas {
+    position: relative;
+}
+
+.canvas-buttons {
+    position: absolute;
+    bottom: 32px;
+    left: 32px;
 }

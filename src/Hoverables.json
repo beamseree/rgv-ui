@@ -69,6 +69,11 @@
             "name": "Sensor 14",
             "id": "868",
             "description": "This is the fourteenth sensor"
+        },
+        {
+            "name": "Sensor 15",
+            "id": "050",
+            "description": "This is the fifteenth sensor"
         }
     ]
 }

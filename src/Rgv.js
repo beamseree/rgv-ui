@@ -5,12 +5,57 @@ import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
 
 // import { useControls, folder } from "leva"
+const hideMesh = [
+    "856",
+    "846",
+    "810",
+    "823",
+    "824",
+    "009",
+    "007",
+    "008",
+    "006",
+    "005",
+    "334",
+    "335",
+    "843",
+    "837",
+    "841",
+    "835",
+    "839",
+    "833",
+    "831",
+    "845",
+    "---",
+    "844",
+    "830",
+    "832",
+    "838",
+    "834",
+    "840",
+    "836",
+    "842",
+    "---",
+    "850",
+    "851",
+    "852",
+    "847",
+    "848",
+    "849",
+    "---",
+    "922",
+    "923",
+    "924",
+    "919",
+    "920",
+    "921",
+];
 
-export function Rgv({ setFocus, hoverables, ...props }) {
+export function Rgv({ setFocus, hoverables, hideCover, ...props }) {
     const group = useRef();
     const { nodes } = useGLTF("/rgvtest.glb");
     const [hovered, hover] = useState();
-    const sensorIds = hoverables.sensors.map(sensor => sensor.id);
+    const sensorIds = hoverables.sensors.map((sensor) => sensor.id);
 
     const [isDragging, setIsDragging] = useState(false);
 
@@ -28,7 +73,7 @@ export function Rgv({ setFocus, hoverables, ...props }) {
     const handlePointerUp = (e) => {
         if (!isDragging) {
             setFocus(hovered);
-            console.log(hovered)// Handle click event
+            console.log(hovered); // Handle click event
         }
         setIsDragging(false); // Reset dragging state
     };
@@ -58,13 +103,30 @@ export function Rgv({ setFocus, hoverables, ...props }) {
         const meshes = [];
         for (let i = 0; i < 1035; i++) {
             let num = convertToThreeDigits(i);
-            if (!sensorIds.includes(num)) {
+            if (!sensorIds.includes(num) && !hideMesh.includes(num)) {
                 try {
                     meshes.push(
                         <Select
                             name={`Object${num}`}
                             enabled={hovered === `Object${num}`}>
                             <mesh
+                                // visible={false}
+                                key={i}
+                                geometry={nodes[`Object${num}`].geometry}
+                                material={nodes[`Object${num}`].material}
+                            />
+                        </Select>
+                    );
+                } catch (e) { }
+            } else if (hideMesh.includes(num)) {
+                console.log("hideMesh");
+                try {
+                    meshes.push(
+                        <Select
+                            name={`Object${num}`}
+                            enabled={hovered === `Object${num}`}>
+                            <mesh
+                                visible={!hideCover}
                                 key={i}
                                 geometry={nodes[`Object${num}`].geometry}
                                 material={nodes[`Object${num}`].material}
