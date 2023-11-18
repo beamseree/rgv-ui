@@ -6,40 +6,17 @@ import { Rgv } from "./Rgv"
 import { useState } from "react"
 import "./App.css"
 import logo from "./img/amwlogoui.svg"
-import {EyeOutlined, EyeInvisibleOutlined} from '@ant-design/icons';
+import {EyeOutlined, EyeInvisibleOutlined, CloseOutlined} from '@ant-design/icons';
 import hoverables from "./Hoverables.json";
-import { Divider, Button, Tooltip } from 'antd';
-
-import { Collapse } from 'antd';
-import { hover } from "@testing-library/user-event/dist/hover"
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-const items = [
-  {
-    key: '1',
-    label: 'This is panel header 1',
-    children: <p>{text}</p>,
-  },
-  {
-    key: '2',
-    label: 'This is panel header 2',
-    children: <p>{text}</p>,
-  },
-  {
-    key: '3',
-    label: 'This is panel header 3',
-    children: <p>{text}</p>,
-  },
-];
+import { Divider, Button, Tooltip, List } from 'antd';
 
 export default function App() {
-  const [focus, setFocus] = useState("Object869")
+  const [focus, setFocus] = useState(null)
+  const [clickedHoverable, setClickedHoverable] = useState(false)
   const [itemName, setItemName] = useState("")
   const [itemDesc, setItemDesc] = useState("")
   const [hideCover, setHideCover] = useState(false)
+  const [hovered, hover] = useState();
 
   useEffect(() => {
     if (focus) {
@@ -48,6 +25,15 @@ export default function App() {
       setItemDesc(foundSensor.description);
     }
   }, [focus])
+
+  const resetFocus = () => {
+    if (!clickedHoverable) {
+      setFocus(null);
+      setItemName("");
+      setItemDesc("");
+    }
+    setClickedHoverable(false);
+  }
 
   return (
     <div className="App">
@@ -62,14 +48,45 @@ export default function App() {
       <div className="main">
 
         <div className="sidebar">
-            <p className="item-name">{itemName}</p>
-            <Divider />
-            <p className="item-description">{itemDesc}</p>
-            {/* <Collapse accordion items={items} /> */}
+          <div className="sidebar-inner">
+            {focus !== null ?
+            <>
+              <div className="title-wrapper">
+                <p className="item-name">{itemName}</p>
+                <Button
+                  shape="square"
+                  type="link"
+                  size="large"
+                  icon={<CloseOutlined />}
+                  onClick={() => resetFocus()}
+                />
+              </div>
+              <Divider />
+              <p className="item-description">{itemDesc}</p>
+            </> : <>
+              <p className="item-name">Sensors</p>
+              <Divider />
+              <div className="list">
+                {hoverables.sensors.map((sensor) => (
+                  <div className="list-item" 
+                      onClick={() => {setFocus(`Object${sensor.id}`)}}
+                      onPointerOver={() => hover(`Object${sensor.id}`)}
+                      onPointerOut={() => hover(null)}>
+                    <p className="item-description">{sensor.name}</p>
+                  </div>
+                ))}
+              </div>
+              {/* <List
+                dataSource={sensors}
+                renderItem={(item) => <List.Item>{item}</List.Item>}
+              /> */}
+            </>
+            }
+          </div>
         </div>
         <div className="canvas">
 
-        <Canvas className="canvas" orthographic flat dpr={[1, 2]} camera={{ position: [200, 200, 200], fov: 35, near: 0, far: 700, zoom: 1.25 }}>
+        <Canvas className="canvas" orthographic flat dpr={[1, 2]} camera={{ position: [200, 200, 200], fov: 35, near: 0, far: 700, zoom: 1.25 }} onClick={() => {resetFocus()}}>
           <Suspense fallback={null}>
             <ambientLight intensity={0.75} />
 
@@ -77,7 +94,7 @@ export default function App() {
               <EffectComposer multisampling={0} autoClear={false}>
                 <Outline visibleEdgeColor="white" hiddenEdgeColor="white" blur width={1000} edgeStrength={100} />
               </EffectComposer>
-              <Rgv rotation={[0, Math.PI / 2, 0]} setFocus={setFocus} hoverables={hoverables} hideCover={hideCover}/>
+              <Rgv hovered={hovered} hover={hover} rotation={[0, Math.PI / 2, 0]} setFocus={setFocus} focus={focus} hoverables={hoverables} hideCover={hideCover} setClickedHoverable={setClickedHoverable}/>
             </Selection>
 
             <Environment resolution={256}>

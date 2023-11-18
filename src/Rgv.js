@@ -51,10 +51,9 @@ const hideMesh = [
     "921",
 ];
 
-export function Rgv({ setFocus, hoverables, hideCover, ...props }) {
+export function Rgv({ hovered, hover, focus, setFocus, hoverables, hideCover, setClickedHoverable, ...props }) {
     const group = useRef();
     const { nodes } = useGLTF("/rgvtest.glb");
-    const [hovered, hover] = useState();
     const sensorIds = hoverables.sensors.map((sensor) => sensor.id);
 
     const [isDragging, setIsDragging] = useState(false);
@@ -73,7 +72,7 @@ export function Rgv({ setFocus, hoverables, hideCover, ...props }) {
     const handlePointerUp = (e) => {
         if (!isDragging) {
             setFocus(hovered);
-            console.log(hovered); // Handle click event
+            setClickedHoverable(true)
         }
         setIsDragging(false); // Reset dragging state
     };
@@ -86,7 +85,7 @@ export function Rgv({ setFocus, hoverables, hideCover, ...props }) {
                 meshes.push(
                     <Select
                         name={`Object${sensors[i].id}`}
-                        enabled={hovered === `Object${sensors[i].id}`}>
+                        enabled={hovered === `Object${sensors[i].id}` || focus === `Object${sensors[i].id}`}>
                         <mesh
                             key={i}
                             geometry={nodes[`Object${sensors[i].id}`].geometry}
@@ -119,7 +118,6 @@ export function Rgv({ setFocus, hoverables, hideCover, ...props }) {
                     );
                 } catch (e) { }
             } else if (hideMesh.includes(num)) {
-                console.log("hideMesh");
                 try {
                     meshes.push(
                         <Select
