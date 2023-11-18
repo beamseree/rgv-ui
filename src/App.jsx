@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
     Bounds,
@@ -66,9 +66,10 @@ export default function App() {
 
     const resetFocus = () => {
         if (!clickedHoverable) {
-            setFocus(null);
-            setItemName("");
-            setItemDesc("");
+          setFocus(null);
+          hover(null);
+          setItemName("");
+          setItemDesc("");
         }
         setClickedHoverable(false);
     };
